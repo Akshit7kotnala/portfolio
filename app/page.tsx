@@ -12,6 +12,8 @@ import {
   FaSun,
   FaEnvelope,
   FaInstagram,
+  FaBars,
+  FaTimes,
 } from "react-icons/fa";
 import { useTheme } from "./ThemeProvider";
 import ScrollAnimation from "./components/ScrollAnimation";
@@ -34,6 +36,7 @@ export default function Home() {
   const [activeCertification, setActiveCertification] = useState(
     "Amazon ML Summer School"
   );
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme, mounted } = useTheme();
 
   // Smooth scroll function
@@ -186,23 +189,27 @@ export default function Home() {
 
       {/* Navigation */}
       <nav className="fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md z-50 border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
+            {/* Logo */}
             <div className="flex items-center">
               <a
                 href="#home"
                 onClick={(e) => {
                   e.preventDefault();
                   window.scrollTo({ top: 0, behavior: "smooth" });
+                  setMobileMenuOpen(false);
                 }}
                 className="cursor-pointer"
               >
-                <div className="w-12 h-12 rounded-full border-3 border-red-500 flex items-center justify-center hover:scale-110 transition-transform">
-                  <span className="text-red-500 font-bold text-xl">a</span>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full border-3 border-red-500 flex items-center justify-center hover:scale-110 transition-transform">
+                  <span className="text-red-500 font-bold text-lg sm:text-xl">a</span>
                 </div>
               </a>
             </div>
-            <div className="flex gap-8 items-center">
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex gap-8 items-center">
               <a
                 href="#about"
                 onClick={(e) => scrollToSection(e, "about")}
@@ -229,8 +236,7 @@ export default function Home() {
                 onClick={(e) => scrollToSection(e, "certifications")}
                 className="text-gray-700 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-500 transition-colors"
               >
-                <span className="text-red-500 font-mono">04.</span>{" "}
-                Certifications
+                <span className="text-red-500 font-mono">04.</span> Certifications
               </a>
               <a
                 href="#contact"
@@ -245,11 +251,7 @@ export default function Home() {
                   className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-all duration-300 p-2 hover:scale-110 hover:rotate-12"
                   aria-label="Toggle theme"
                 >
-                  {theme === "light" ? (
-                    <FaMoon size={20} />
-                  ) : (
-                    <FaSun size={20} />
-                  )}
+                  {theme === "light" ? <FaMoon size={20} /> : <FaSun size={20} />}
                 </button>
               )}
               <MagneticButton>
@@ -263,6 +265,95 @@ export default function Home() {
                 </a>
               </MagneticButton>
             </div>
+
+            {/* Mobile Menu Button and Theme Toggle */}
+            <div className="flex lg:hidden items-center gap-4">
+              {mounted && (
+                <button
+                  onClick={toggleTheme}
+                  className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-all duration-300 p-2"
+                  aria-label="Toggle theme"
+                >
+                  {theme === "light" ? <FaMoon size={20} /> : <FaSun size={20} />}
+                </button>
+              )}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors p-2"
+                aria-label="Toggle mobile menu"
+              >
+                {mobileMenuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`lg:hidden absolute top-full left-0 w-full bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 transition-all duration-300 ${
+            mobileMenuOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+          }`}
+        >
+          <div className="flex flex-col px-6 py-4 space-y-4">
+            <a
+              href="#about"
+              onClick={(e) => {
+                scrollToSection(e, "about");
+                setMobileMenuOpen(false);
+              }}
+              className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors py-2"
+            >
+              <span className="text-red-500 font-mono">01.</span> About
+            </a>
+            <a
+              href="#experience"
+              onClick={(e) => {
+                scrollToSection(e, "experience");
+                setMobileMenuOpen(false);
+              }}
+              className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors py-2"
+            >
+              <span className="text-red-500 font-mono">02.</span> Experience
+            </a>
+            <a
+              href="#work"
+              onClick={(e) => {
+                scrollToSection(e, "work");
+                setMobileMenuOpen(false);
+              }}
+              className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors py-2"
+            >
+              <span className="text-red-500 font-mono">03.</span> Work
+            </a>
+            <a
+              href="#certifications"
+              onClick={(e) => {
+                scrollToSection(e, "certifications");
+                setMobileMenuOpen(false);
+              }}
+              className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors py-2"
+            >
+              <span className="text-red-500 font-mono">04.</span> Certifications
+            </a>
+            <a
+              href="#contact"
+              onClick={(e) => {
+                scrollToSection(e, "contact");
+                setMobileMenuOpen(false);
+              }}
+              className="text-gray-700 dark:text-gray-300 hover:text-red-500 transition-colors py-2"
+            >
+              <span className="text-red-500 font-mono">05.</span> Contact
+            </a>
+            <a
+              href="https://drive.google.com/drive/folders/197mL76kxQGfGWSnq15lrZ8Hy-JLmhX9l"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-center border-2 border-red-500 text-red-500 px-6 py-2 rounded hover:bg-red-500 hover:text-white transition-all duration-300"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Resume
+            </a>
           </div>
         </div>
       </nav>
@@ -315,18 +406,18 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section id="home" className="pt-32 pb-20 px-6 lg:px-32">
+      <section id="home" className="pt-32 pb-20 px-4 sm:px-6 lg:px-32">
         <div className="max-w-7xl mx-auto">
           <ScrollAnimation direction="up">
             <div className="max-w-4xl">
-              <p className="text-red-500 font-mono mb-6">Hello there! I'm</p>
-              <h1 className="text-7xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+              <p className="text-red-500 font-mono mb-4 sm:mb-6 text-sm sm:text-base">Hello there! I'm</p>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 text-gray-900 dark:text-gray-100">
                 Akshit Kotnala
               </h1>
-              <h2 className="text-3xl font-bold mb-8 text-gray-700 dark:text-gray-300">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold mb-6 sm:mb-8 text-gray-700 dark:text-gray-300">
                 Building intelligent systems, one line of code at a time.
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8 max-w-2xl">
+              <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg leading-relaxed mb-6 sm:mb-8 max-w-2xl">
                 I'm a passionate software engineer driven by curiosity and
                 innovation. With experience in backend development, machine
                 learning, and cloud-based systems, I love turning ideas into
@@ -334,7 +425,7 @@ export default function Home() {
                 crafting the next wave of smart, reliable, and future-ready
                 technology. 🚀
               </p>
-              <button className="border-2 border-red-500 text-red-500 px-8 py-3 rounded hover:bg-red-50 dark:hover:bg-red-950 transition-colors">
+              <button className="border-2 border-red-500 text-red-500 px-6 sm:px-8 py-2 sm:py-3 rounded hover:bg-red-50 dark:hover:bg-red-950 transition-colors text-sm sm:text-base">
                 Check out my Blogs!
               </button>
             </div>
@@ -452,10 +543,10 @@ export default function Home() {
             </p>
           </ScrollAnimation>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {workExperience.map((job, index) => (
               <ScrollAnimation key={job.company} direction="up" delay={index * 0.1}>
-                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-8 hover:border-red-500/50 transition-all duration-300 h-full shadow-lg hover:shadow-xl">
+                <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 sm:p-6 lg:p-8 hover:border-red-500/50 transition-all duration-300 h-full shadow-lg hover:shadow-xl">
                   {/* Company Logo & Header */}
                   <div className="flex items-start gap-4 mb-6">
                     <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 p-2 flex items-center justify-center flex-shrink-0 overflow-hidden group">
@@ -547,29 +638,29 @@ export default function Home() {
               Some things I've built
             </p>
           </ScrollAnimation>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {projects.map((p, index) => (
               <ProjectTiltCard key={p.title} index={index} className="h-full">
-                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-6 bg-white dark:bg-gray-900 h-full transition-all duration-300 hover:border-red-500/50 shadow-lg flex flex-col">
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4 sm:p-6 bg-white dark:bg-gray-900 h-full transition-all duration-300 hover:border-red-500/50 shadow-lg flex flex-col">
                   <div className="mb-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center text-white text-xl font-bold shadow-md">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center text-white text-lg sm:text-xl font-bold shadow-md">
                       {index + 1}
                     </div>
                   </div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-3 text-gray-900 dark:text-gray-100">
                     {p.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">
+                  <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4">
                     {p.bullets[0]}
                   </p>
-                  <ul className="mb-4 list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <ul className="mb-4 list-disc list-inside text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                     {p.bullets.slice(1).map((b, i) => (
                       <li key={i}>{b}</li>
                     ))}
                   </ul>
                   <div className="flex gap-2 flex-wrap mb-4 mt-auto">
                     {p.stack.map((tech) => (
-                      <span key={tech} className="text-xs text-red-500 px-3 py-1 bg-red-50 dark:bg-red-950 rounded-full font-medium">
+                      <span key={tech} className="text-xs text-red-500 px-2 sm:px-3 py-1 bg-red-50 dark:bg-red-950 rounded-full font-medium">
                         {tech}
                       </span>
                     ))}
@@ -577,7 +668,7 @@ export default function Home() {
                   <div className="flex gap-3 mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
                     <a
                       href="#"
-                      className="text-sm text-red-500 hover:text-red-600 font-medium flex items-center gap-1 transition-colors"
+                      className="text-xs sm:text-sm text-red-500 hover:text-red-600 font-medium flex items-center gap-1 transition-colors"
                     >
                       <FaGithub /> Code
                     </a>
@@ -601,14 +692,14 @@ export default function Home() {
             </h2>
           </ScrollAnimation>
           <ScrollAnimation direction="up" delay={0.2}>
-            <div className="grid md:grid-cols-[300px,1fr] gap-8">
+            <div className="flex flex-col md:grid md:grid-cols-[300px,1fr] gap-8">
               {/* Certification Tabs */}
-              <div className="flex md:flex-col gap-2">
+              <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-x-visible pb-2 md:pb-0 -mx-4 px-4 md:mx-0 md:px-0">
                 {certifications.map((cert, index) => (
                   <button
                     key={index}
                     onClick={() => setActiveCertification(cert.name)}
-                    className={`text-left px-6 py-3 border-l-4 transition-all ${
+                    className={`text-left px-4 sm:px-6 py-3 border-l-4 transition-all whitespace-nowrap md:whitespace-normal flex-shrink-0 md:flex-shrink text-sm sm:text-base ${
                       activeCertification === cert.name
                         ? "border-red-500 bg-red-50 dark:bg-red-950 text-red-500"
                         : "border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
