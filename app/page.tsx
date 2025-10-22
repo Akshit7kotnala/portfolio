@@ -194,11 +194,10 @@ export default function Home() {
             {/* Logo */}
             <div className="flex items-center">
               <a
-                href="#home"
+                href="/"
                 onClick={(e) => {
                   e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: "smooth" });
-                  setMobileMenuOpen(false);
+                  window.location.reload();
                 }}
                 className="cursor-pointer"
               >
